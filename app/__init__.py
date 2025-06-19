@@ -3,7 +3,7 @@ from app.models import Admin, Users, UserCallData, Calls, Credits
 from flask_cors import CORS
 import os
 from dotenv import load_dotenv
-import pymysql
+# import pymysql
 
 
 app = Flask(__name__)
