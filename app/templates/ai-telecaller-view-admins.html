@@ -1,0 +1,36 @@
+<!-- ai-telecaller-view-admins.html -->
+{% extends "base.html" %}
+{% block title %}View Admins{% endblock %}
+{% block content %}
+<h2>All Admins</h2>
+<table border="1">
+  <thead>
+    <tr><th>Name</th><th>Email</th><th>WhatsApp</th><th>Action</th></tr>
+  </thead>
+  <tbody id="adminTable"></tbody>
+</table>
+<script>
+fetch('/api/admin/getAdmins')
+  .then(res => res.json())
+  .then(data => {
+    const admins = data.admins;
+    const table = document.getElementById('adminTable');
+    admins.forEach(admin => {
+      const row = `<tr>
+        <td>${admin.admin_name}</td>
+        <td>${admin.admin_email}</td>
+        <td>${admin.admin_whatsapp_number}</td>
+        <td><button onclick="deleteAdmin('${admin.id}')">Delete</button></td>
+      </tr>`;
+      table.insertAdjacentHTML('beforeend', row);
+    });
+  });
+function deleteAdmin(id) {
+  fetch('/api/admin/deleteAdmin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id })
+  }).then(res => res.json()).then(alert);
+}
+</script>
+{% endblock %}
