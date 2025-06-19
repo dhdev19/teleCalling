@@ -1,0 +1,38 @@
+<!-- ai-telecaller-admin-view-all-users.html -->
+{% extends "base.html" %}
+{% block title %}View Users{% endblock %}
+{% block content %}
+<h2>All Users</h2>
+<table border="1">
+  <thead>
+    <tr><th>Name</th><th>Email</th><th>Company</th><th>WhatsApp</th><th>Calls Made</th><th>Action</th></tr>
+  </thead>
+  <tbody id="userTable"></tbody>
+</table>
+<script>
+fetch('{{ base_url }}/api/admin/getUsers')
+  .then(res => res.json())
+  .then(data => {
+    const users = data.users;
+    const table = document.getElementById('userTable');
+    users.forEach(user => {
+      const row = `<tr>
+        <td>${user.user_name}</td>
+        <td>${user.email}</td>
+        <td>${user.company_name}</td>
+        <td>${user.whatsapp_number}</td>
+        <td>${user.calls_made}</td>
+        <td><button onclick="deleteUser('${user.id}')">Delete</button></td>
+      </tr>`;
+      table.insertAdjacentHTML('beforeend', row);
+    });
+  });
+function deleteUser(id) {
+  fetch('/api/admin/deleteUser', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ id })
+  }).then(res => res.json()).then(alert);
+}
+</script>
+{% endblock %}
