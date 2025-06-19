@@ -478,3 +478,25 @@ class Credits:
         conn.commit()
         cursor.close()
         conn.close()
+
+    @staticmethod
+    def get_user_data_by_email(email):
+        conn = get_db_connection()
+        cursor = conn.cursor(dictionary=True)
+        cursor.execute('''
+            SELECT 
+                users.id, 
+                users.user_name, 
+                users.email, 
+                users.whatsapp_number, 
+                user_call_data.twilio_phone_number, 
+                credits.credits
+            FROM users
+            JOIN user_call_data ON users.id = user_call_data.user_id
+            JOIN credits ON users.id = credits.user_id
+            WHERE users.email = %s
+        ''', (email,))
+        user_data = cursor.fetchone()
+        cursor.close()
+        conn.close()
+        return user_data
