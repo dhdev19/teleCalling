@@ -1,0 +1,39 @@
+{% set base_url = 'https://telecalling.onrender.com' %}
+
+<!-- base.html: includes top navbar and sidebar -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Admin Dashboard{% endblock %}</title>
+  <style>
+    body { margin: 0; font-family: Arial; }
+    .navbar, .sidebar { background-color: #DC0000; color: white; }
+    .navbar { display: flex; justify-content: space-between; padding: 1em; }
+    .sidebar { position: fixed; top: 60px; bottom: 0; width: 200px; padding: 1em; }
+    .sidebar a { color: white; display: block; margin: 10px 0; text-decoration: none; }
+    .content { margin-left: 220px; padding: 2em; margin-top: 60px; }
+  </style>
+  <script>
+    window.history.pushState(null, "", window.location.href);
+    window.onpopstate = function () { window.history.pushState(null, "", window.location.href); };
+  </script>
+</head>
+<body>
+  <div class="navbar">
+    <div>Admin Dashboard</div>
+    <button onclick="fetch('{{ base_url }}/api/adminLogout', { method: 'POST' }).then(() => location.href = '/')">Logout</button>
+  </div>
+  <div class="sidebar">
+    <a href="/ai-telecaller-admin-add-user.html">Add User</a>
+    <a href="/ai-telecaller-admin-view-all-users.html">View All Users</a>
+    <a href="/ai-telecaller-admin-add-admin.php">Add Admin</a>
+    <a href="/ai-telecaller-view-admins.html">View All Admins</a>
+    <a href="#">Add Credits</a>
+  </div>
+  <div class="content">
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>
