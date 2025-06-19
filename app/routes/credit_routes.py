@@ -96,7 +96,7 @@ def view_user_credit_info():
     if not email:
         return jsonify(message='Email is required'), 400 
     
-    user_data = .get_user_data_by_email(email)
+    user_data = Credits.get_user_data_by_email(email)
     if not user_data:
         return jsonify(message='User data not found for given email'), 404
     return jsonify(user_data=user_data), 200
