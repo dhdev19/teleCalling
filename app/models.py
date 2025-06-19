@@ -170,7 +170,21 @@ class Users:
     def get_by_id(user_id):
         conn = get_db_connection()
         cursor = conn.cursor(dictionary=True)
-        cursor.execute('SELECT id, user_name, email, registered_on, company_name, whatsapp_number, calls_made FROM users WHERE id = %s', (user_id,))
+        cursor.execute('''
+            SELECT 
+                users.id,
+                users.user_name,
+                users.email,
+                users.registered_on,
+                users.company_name,
+                users.whatsapp_number,
+                users.calls_made,
+                credits.credits
+            FROM users
+            JOIN credits ON users.id = credits.user_id
+            WHERE users.id = %s
+        ''', (user_id,))
+
         user = cursor.fetchone()
         cursor.close()
         conn.close()
