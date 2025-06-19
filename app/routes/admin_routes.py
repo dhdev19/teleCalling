@@ -47,7 +47,8 @@ def admin_login():
     
     session['admin_id'] = admin['id']
     
-    return jsonify(message='Login successful', admin_id=admin['id']), 200
+    # return jsonify(message='Login successful', admin_id=admin['id']), 200
+    return render_template('ai-telecaller-admin-dashboard.html')
 
 
 @bp.route('/api/adminLogout', methods=['POST', 'OPTIONS'])
