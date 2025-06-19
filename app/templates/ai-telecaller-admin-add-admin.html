@@ -1,0 +1,29 @@
+{% extends "base-admin.html" %}
+
+{% block content %}
+<div class="content">
+  <h2>Add Admin</h2>
+  <form onsubmit="event.preventDefault(); addAdmin()">
+    <input placeholder="Admin Name" id="admin_name"><br>
+    <input placeholder="Admin Email" id="admin_email" type="email"><br>
+    <input placeholder="Admin Password" id="admin_password" type="password"><br>
+    <input placeholder="Admin WhatsApp Number" id="admin_whatsapp_number"><br>
+    <button type="submit">Add Admin</button>
+  </form>
+</div>
+<script>
+function addAdmin() {
+  const data = {
+    admin_name: document.getElementById('admin_name').value,
+    admin_email: document.getElementById('admin_email').value,
+    admin_password: document.getElementById('admin_password').value,
+    admin_whatsapp_number: document.getElementById('admin_whatsapp_number').value
+  };
+  fetch('/api/admin/addAdmin', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data)
+  }).then(res => res.json()).then(alert);
+}
+</script>
+{% endblock %}
