@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 app = Flask(__name__)
 load_dotenv()
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default_secret_key')
-CORS(app, resources={r"/*": {"origins": "*"}})
+CORS(app, supports_credentials=True, resources={r"/*": {"origins": "*"}})
 
 with app.app_context():
     Admin.create_table()
