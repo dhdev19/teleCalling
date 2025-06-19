@@ -82,4 +82,21 @@ def reset_credits():
         return jsonify(message='Credits reset successfully'), 200
     except Exception as e:
         return jsonify(message=str(e)), 500
+
+
+@bp.route('/api/user/ViewInfo', methods=['POST', 'OPTIONS'])
+@admin_required
+@no_cache
+def view_user_credit_info():
+    if request.method == 'OPTIONS':
+        return jsonify(message='CORS preflight response'), 200
+    data = request.get_json()
+    email = data.get('email')
+
+    if not email:
+        return jsonify(message='Email is required'), 400 
     
+    user_data = .get_user_data_by_email(email)
+    if not user_data:
+        return jsonify(message='User data not found for given email'), 404
+    return jsonify(user_data=user_data), 200
