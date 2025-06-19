@@ -16,23 +16,12 @@ def no_cache(view):
         return response
     return no_cache_impl
 
-# def admin_required(f):
-#     @wraps(f)
-#     def decorated_function(*args, **kwargs):
-#         admin_id = session.get('admin_id')
-#         if not admin_id:
-#             return redirect(url_for('admin_routes.admin_login'))
-        
-#         admin = Admin.get_by_id(admin_id)
-#         if not admin:
-#             return redirect(url_for('auth.admin_login'))
-
-#         return f(*args, **kwargs)
-#     return decorated_function
 
 def admin_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
+        if request.method == 'OPTIONS':
+            return f(*args, **kwargs)
         if 'admin_id' not in session:
             return redirect(url_for('admin_routes.admin_login'))
         return f(*args, **kwargs)
@@ -90,12 +79,6 @@ def add_admin():
     
     hashed_password = generate_password_hash(admin_password)
     
-    # new_admin = Admin(
-    #     admin_name=admin_name,
-    #     admin_email=admin_email,
-    #     admin_password=hashed_password,
-    #     whatsapp_number=admin_whatsapp_number
-    # )
     
     Admin.add_admin(admin_name=admin_name,admin_email=admin_email,admin_password=hashed_password,whatsapp_number=admin_whatsapp_number)
     
